@@ -184,4 +184,11 @@ venv/
 pyvenv.cfg
 pip-selfcheck.json
 
+### database ###
+*.accdb
+*.db
+*.dbf
+*.mdb
+*.pdb
+*.sqlite3
 # End of https://www.gitignore.io/api/venv,emacs,python

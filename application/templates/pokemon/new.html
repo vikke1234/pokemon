@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div>
+    <form method="POST" action="{{ url_for('create_pokemon') }}" >
+        <div>
+            name: <input type="text" name="name" />
+        </div>
+        <div>
+            type: <input type="text" name="type" />
+        </div>
+        <input type="submit" value="create" />
+    </form>
+</div>
+{% endblock %}
