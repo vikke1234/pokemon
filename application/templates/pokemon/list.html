@@ -9,7 +9,7 @@
 
     {% for p in pokemon %}
     <tr>
-        <td>{{ p.name }}</td>
+        <td><a href="pokemon/{{ p.id }}">{{ p.name }}</a></td>
         <td>{{ p.poke_type }}</td>
     </tr>
     {% endfor %}

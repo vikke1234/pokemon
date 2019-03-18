@@ -2,9 +2,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Demo</title>
+        <title>Pokebase</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" >
     </head>
 
+    <div>
+        <a href="{{ url_for('pokemon_index') }}" > List pokemon </a>
+    </div>
+    <div>
+        <a href="{{ url_for('poke_form') }}" > New pokemon </a>
+    </div>
     <body>
         {% block body %}
         <p>
