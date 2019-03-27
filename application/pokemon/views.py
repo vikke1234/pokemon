@@ -17,7 +17,6 @@ def poke_form():
 @app.route("/pokemon/<poke_id>/", methods=["GET"])
 def get_pokemon(poke_id):
     p = Pokemon.query.get(int(poke_id))
-    print(poke_id)
     return render_template("pokemon/specific.html", pokemon=p)
 
 
@@ -34,3 +33,16 @@ def create_pokemon():
     db.session.add(p)
     db.session.commit()
     return redirect(url_for("pokemon_index"))
+
+@app.route("/pokemon/<poke_id>/edit/", methods=["GET", "POST"])
+def edit_pokemon(poke_id):
+    p = Pokemon.query.get(int(poke_id))
+    if(request.method == "GET"):
+        return render_template("pokemon/edit.html", form=PokeForm(), pokemon=p)
+    form = PokeForm(request.form)
+    p.name = form.name.data
+    p.poke_type = form.poke_type.data
+    p.custom = form.custom.data
+    p.description = form.description.data
+    db.session.commit()
+    return render_template("pokemon/specific.html", pokemon=p)

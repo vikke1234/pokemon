@@ -9,7 +9,7 @@
 
     {% for p in pokemon %}
     <tr>
-        <td><a href="pokemon/{{ p.id }}">{{ p.name }}</a></td>
+        <td><a href="{{ url_for('get_pokemon', poke_id=p.id) }}">{{ p.name }}</a></td>
         <td>{{ p.poke_type }}</td>
     </tr>
     {% endfor %}
