@@ -3,18 +3,14 @@
 {% block body %}
 <div>
     <form method="POST" action="{{ url_for('create_pokemon') }}" >
-        <div>
-            name: <input type="text" name="name" />
-        </div>
-        <div>
-            type: <input type="text" name="type" />
-        </div>
-        <div>
-            description: <textarea name="description" style="height:200px;width:300px;"></textarea>
-        </div>
-        <div>
-            custom: <input type="checkbox" name="custom" />
-        </div>
+        <table>
+            {% for field in form %}
+            <tr> </tr>
+            <tr>
+                <td> {{  field.label  }} </td> <td> {{ field }} </td>
+            </tr>
+            {% endfor %}
+        </table>
         <input type="submit" value="create" />
     </form>
 </div>

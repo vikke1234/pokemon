@@ -6,16 +6,24 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" >
     </head>
 
-    <div>
-        <a href="{{ url_for('pokemon_index') }}" > List pokemon </a>
-    </div>
-    <div>
-        <a href="{{ url_for('poke_form') }}" > New pokemon </a>
-    </div>
     <body>
+        {% if current_user.is_authenticated %}
+        <p>
+            Logged in: {{ current_user.name }}
+        </p>
+        {% else %}
+        <a href="{{ url_for('auth_login') }}">Log in </a>
+        {% endif %}
+        <div>
+            <a href="{{ url_for('pokemon_index') }}" > List pokemon </a>
+        </div>
+        <div>
+            <a href="{{ url_for('poke_form') }}" > New pokemon </a>
+        </div>
+
         {% block body %}
         <p>
-            Tähän tuodaan sisältö muualta.
+            Content
         </p>
         {% endblock %}
     </body>
