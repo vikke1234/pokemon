@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, SelectField, TextAreaField
+from wtforms import StringField, BooleanField, SelectField, TextAreaField, validators
 
 
 class PokeForm(FlaskForm):
@@ -23,8 +23,8 @@ class PokeForm(FlaskForm):
         ("steel", "Steel")
     ]
 
-    name = StringField("Pokemon name")
-    description = TextAreaField("Description")
+    name = StringField("Pokemon name", [validators.Length(max=144)])
+    description = TextAreaField("Description", [validators.Length(max=144)])
     poke_type = SelectField("type", choices=__types)
     custom = BooleanField("Custom")
 
