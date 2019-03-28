@@ -8,6 +8,9 @@ class Pokemon(db.Model):
     description = db.Column(db.String(300))
     custom = db.Column(db.Boolean, nullable=False)
 
+    account_id = db.Column(
+        db.Integer, db.ForeignKey("account.id"), nullable=False)
+
     def __init__(self, name, poke_type, description, custom):
         self.name = name
         self.poke_type = poke_type

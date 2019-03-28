@@ -1,5 +1,5 @@
 from flask import render_template, redirect, request, url_for
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 from application import app
 from application.auth.models import User
@@ -17,8 +17,14 @@ def auth_login():
         username=form.username.data, password=form.password.data).first()
     if not user:
         return render_template(
-            "auth/loginform", form=form, error="Invalid username or password")
+            "auth/loginform.html", form=form, error="Invalid username or password")
 
     print("User: " + user.name + " authenticated ")
     login_user(user)
+    return redirect(url_for("index"))
+
+
+@app.route("/auth/logout")
+def auth_logout():
+    logout_user()
     return redirect(url_for("index"))
