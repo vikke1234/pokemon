@@ -3,11 +3,6 @@
 {% block body %}
 {{ error }}
 <form method="POST" action="{{ url_for('auth_login') }}">
-    <ul>
-        {% for e in error %}
-        <li>{{ e }}</li>
-        {% endfor %}
-    </ul>
     <table>
         {% for field in form %}
         <tr>
