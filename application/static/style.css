@@ -6,3 +6,8 @@ div {
 .list{
     border: 1px solid black;
 }
+
+.content {
+    max-width: 500px;
+    margin: auto;
+}
