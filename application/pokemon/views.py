@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from application import app, db
 from application.pokemon.models import Pokemon
@@ -34,7 +34,7 @@ def create_pokemon():
     description = form.description.data
     custom = form.custom.data
     print(_type)
-    p = Pokemon(name, _type, description, custom)
+    p = Pokemon(name, _type, description, custom, current_user.get_id())
 
     db.session.add(p)
     db.session.commit()

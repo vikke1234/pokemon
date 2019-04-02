@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, SelectField, TextAreaField, validators
-
+from wtforms import StringField, TextAreaField
+from wtforms import BooleanField, SelectField, validators
 
 class PokeForm(FlaskForm):
     __types = [
