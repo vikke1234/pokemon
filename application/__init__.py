@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 from os import urandom
 import os
@@ -21,10 +22,12 @@ from application.pokemon import views
 from application.auth import models
 from application.auth import views
 
+from application.arena import models
+from application.arena import views
+
 from application.auth.models import User
 app.config["SECRET_KEY"] = urandom(32)
 
-from flask_login import LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)
 
