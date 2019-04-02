@@ -17,7 +17,9 @@ def auth_login():
         username=form.username.data, password=form.password.data).first()
     if not user:
         return render_template(
-            "auth/loginform.html", form=form, error="Invalid username or password")
+            "auth/loginform.html",
+            form=form,
+            error="Invalid username or password")
 
     print("User: " + user.name + " authenticated ")
     login_user(user)
