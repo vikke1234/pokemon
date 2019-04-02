@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div>
+    <table>
+        <tr>
+            <th>Arena</th>
+            <th>Rank</th>
+            <th>Players</th>
+        </tr>
+        {% for arena in arenas %}
+        <tr>
+            <td>{{ arena.name }}</td>
+
+            <!-- TODO add join link -->
+            <td><a>Join</a></td>
+        </tr>
+
+    </table>
+</div>
+{% endblock %}
