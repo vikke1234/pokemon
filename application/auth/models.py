@@ -10,6 +10,7 @@ class User(Base):
     password = db.Column(db.String(144), nullable=False)
 
     pokemon = db.relationship("Pokemon", backref="account", lazy=True)
+    rank = db.relationship("Rank", backref="account", lazy=True)
 
     def __init__(self, name, username, password):
         self.name = name
