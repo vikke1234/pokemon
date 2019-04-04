@@ -1,19 +1,10 @@
-{% extends "layout.html" %}
+{% extends "iterable.html" %}
 
 {% block body %}
 {{ error }}
-<form method="POST" action="{{ url_for('auth_login') }}">
+<form method="POST" action="{{ url_for(url) }}">
     <table>
-        {% for field in form %}
-        <tr>
-            <td>
-                {{ field.label }}
-            </td>
-            <td>
-                {{ field }}
-            </td>
-        </tr>
-        {% endfor %}
+        {{super()}}
         <tr>
             <td colspan="2">
                 <input type="submit" value="Login"/>
