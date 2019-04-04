@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 from application import app, db
 from application.pokemon.models import Pokemon
-from application.pokemon.forms import PokeForm
+from application.pokemon.forms import PokeForm, DefaultPokemonForm
 from application.auth.models import User
 
 
@@ -12,8 +12,8 @@ from application.auth.models import User
 def pokemon_index():
     return render_template(
         "pokemon/list.html",
-        pokemon=Pokemon.query.filter(
-            User.id == current_user.get_id()))
+        pokemon=Pokemon.query.join(
+            Pokemon.accounts).filter_by(id=current_user.get_id()).all())
 
 
 @app.route("/pokemon/new")
@@ -37,8 +37,7 @@ def create_pokemon():
     _type = form.poke_type.data
     description = form.description.data
     custom = form.custom.data
-    p = Pokemon(name, _type, description, custom, current_user.get_id())
-
+    p = Pokemon(name, _type, description, custom)
     db.session.add(p)
     db.session.commit()
     return redirect(url_for("pokemon_index"))
@@ -57,3 +56,20 @@ def edit_pokemon(poke_id):
     p.description = form.description.data
     db.session.commit()
     return render_template("pokemon/specific.html", pokemon=p)
+
+
+@app.route("/pokemon/add_pokemon", methods=["GET", "POST"])
+@login_required
+def add_pokemon():
+    if (request.method == "GET"):
+        return render_template(
+            "pokemon/add_pokemon.html", form=DefaultPokemonForm())
+    form = DefaultPokemonForm(request.form)
+    pokemon = form.name.data
+    user_id = current_user.get_id()
+    user = User.query.filter_by(id=user_id).first()
+    print("\033[93m" + str(user) + "\033[0m")
+    pokemon.accounts.append(user)
+    db.session.add(pokemon)
+    db.session.commit()
+    return redirect(url_for("pokemon_index"))
