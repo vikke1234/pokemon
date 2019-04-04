@@ -1,7 +1,7 @@
 from flask import render_template, redirect, request, url_for
 from flask_login import login_user, logout_user
 
-from application import db, app
+from application import db, app, flask_bcrypt
 from application.auth.models import User
 from application.auth.forms import LoginForm, RegisterForm
 
@@ -9,17 +9,20 @@ from application.auth.forms import LoginForm, RegisterForm
 @app.route("/auth/login", methods=["GET", "POST"])
 def auth_login():
     if (request.method == "GET"):
-        return render_template("auth/loginform.html", form=LoginForm(), url="auth_login")
+        return render_template(
+            "auth/loginform.html", form=LoginForm(), url="auth_login")
 
     form = LoginForm(request.form)
 
-    user = User.query.filter_by(
-        username=form.username.data, password=form.password.data).first()
-    if not user:
+    user = User.query.filter_by(username=form.username.data).first()
+
+    if not user or not flask_bcrypt.check_password_hash(
+            user.password, form.password.data):
         return render_template(
             "auth/loginform.html",
             form=form,
-            error="Invalid username or password")
+            error="Invalid username or password",
+            url="auth_login")
 
     print("User: " + user.name + " authenticated ")
     login_user(user)
@@ -34,11 +37,27 @@ def auth_logout():
 
 @app.route("/auth/register", methods=["GET", "POST"])
 def auth_register():
-    if(request.method == "GET"):
-        return render_template("auth/loginform.html", form=RegisterForm(), url="auth_register")
-    form = RegisterForm(request.form)
+    if (request.method == "GET"):
+        return render_template(
+            "auth/loginform.html", form=RegisterForm(), url="auth_register")
 
-    user = User(form.name.data, form.username.data, form.password.data)
+    form = RegisterForm(request.form)
+    user_taken = User.query.filter_by(username=form.username.data).first()
+    print(user_taken)
+    if user_taken:
+        return render_template(
+            "auth/loginform.html",
+            form=RegisterForm(),
+            url="auth_register",
+            error="username taken")
+    if not form.validate():
+        return render_template(
+            "auth/loginform.html",
+            form=RegisterForm(),
+            url="auth_register",
+            error="password cannot be empty")
+    pw = flask_bcrypt.generate_password_hash(form.password.data)
+    user = User(form.name.data, form.username.data, pw)
     db.session.add(user)
     db.session.commit()
     return redirect(url_for("auth_login"))
