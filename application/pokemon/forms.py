@@ -23,7 +23,7 @@ class PokeForm(FlaskForm):
         ("steel", "Steel")
     ]
 
-    name = StringField("Pokemon name", [validators.Length(max=144)])
+    name = StringField("Pokemon name", [validators.Length(min=2, max=144)])
     description = TextAreaField("Description", [validators.Length(max=144)])
     poke_type = SelectField("type", choices=__types)
     custom = BooleanField("Custom")
