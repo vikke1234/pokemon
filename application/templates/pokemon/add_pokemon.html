@@ -1,0 +1,6 @@
+{% extends "layout.html" %}
+{% import "iterable.html" as iterable %}
+
+{%block body%}
+{{ iterable.make_form(form, "add_pokemon", "pick") }}
+{%endblock%}
