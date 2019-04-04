@@ -4,12 +4,16 @@ from flask_login import login_required, current_user
 from application import app, db
 from application.pokemon.models import Pokemon
 from application.pokemon.forms import PokeForm
+from application.auth.models import User
 
 
 @app.route("/pokemon", methods=["GET"])
 @login_required
 def pokemon_index():
-    return render_template("pokemon/list.html", pokemon=Pokemon.query.all())
+    return render_template(
+        "pokemon/list.html",
+        pokemon=Pokemon.query.filter(
+            User.id == current_user.get_id()))
 
 
 @app.route("/pokemon/new")
@@ -33,7 +37,6 @@ def create_pokemon():
     _type = form.poke_type.data
     description = form.description.data
     custom = form.custom.data
-    print(_type)
     p = Pokemon(name, _type, description, custom, current_user.get_id())
 
     db.session.add(p)
