@@ -24,9 +24,6 @@ from application.pokemon import views
 from application.auth import models
 from application.auth import views
 
-from application.arena import models
-from application.arena import views
-
 from application.auth.models import User
 app.config["SECRET_KEY"] = urandom(32)
 
@@ -42,7 +39,14 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
+from application.pokemon.models import Pokemon
+
 try:
     db.create_all()
+    if not User.query.filter_by(username="admin").first():
+        db.session.add(
+            User("admin", "admin", flask_bcrypt.generate_password_hash("123")))
+        db.session.add(Pokemon("Pikatchu", "electric", "-", False))
+        db.session.commit()
 except:
     pass
