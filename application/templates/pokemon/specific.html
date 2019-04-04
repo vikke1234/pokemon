@@ -4,8 +4,17 @@
 
 <div>
     <a href="{{ url_for('edit_pokemon', poke_id=pokemon.id ) }}" >Edit</a>
-    <div>    name: {{ pokemon.name }}, type: {{ pokemon.poke_type }}, custom: {{ pokemon.custom }}, created by: {{ pokemon.get_user().name }}
-        <p style="max-width: 50%;"> {{ pokemon.description }} </p>
+    <div>
+        <div>
+            <strong>name:</strong> {{ pokemon.name.capitalize() }},
+            <strong>type:</strong> {{ pokemon.poke_type.capitalize() }},
+            <strong>custom:</strong> {{ pokemon.custom }},
+            <strong>created by:</strong> {{ pokemon.get_user().name }}
+        </div>
+        <div>
+            <label><strong>description</strong></label>
+            <p> {{ pokemon.description }} </p>
+        </div>
     </div>
 </div>
 
