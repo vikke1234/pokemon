@@ -18,7 +18,8 @@
             {% endif %}
             <div>
                 <a style="padding-right:20px;" href="{{ url_for('pokemon_index') }}" > List pokemon </a>
-                <a href="{{ url_for('poke_form') }}" > New pokemon </a>
+                <a style="padding-right:20px;" href="{{ url_for('poke_form') }}" > New pokemon </a>
+                <a style="padding-right:20px;" href="{{ url_for('add_pokemon') }}" > Add existing pokemon </a>
             </div>
 
             {% block body %}
