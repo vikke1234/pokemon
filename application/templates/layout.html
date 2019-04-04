@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <div class=".content">
+        <div class="content" style="margin:auto;max-width:500px;">
             {% if current_user.is_authenticated %}
             <p>
                 Logged in: {{ current_user.name }}. <a href="{{ url_for('auth_logout') }}" > Log out </a>
@@ -17,9 +17,7 @@
             <a href="{{ url_for('auth_register') }}">Register</a>
             {% endif %}
             <div>
-                <a href="{{ url_for('pokemon_index') }}" > List pokemon </a>
-            </div>
-            <div>
+                <a style="padding-right:20px;" href="{{ url_for('pokemon_index') }}" > List pokemon </a>
                 <a href="{{ url_for('poke_form') }}" > New pokemon </a>
             </div>
 
