@@ -1,8 +1,0 @@
-{% extends "iterable.html" %}
-
-{% block body %}
-<form method="POST" action="{{url_for('new_arena')}}">
-    {{super()}}
-    <input type="submit" value="create" />
-</form>
-{% endblock %}
