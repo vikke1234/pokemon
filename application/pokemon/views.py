@@ -1,36 +1,43 @@
 from flask import render_template, request, redirect, url_for
-from flask_login import login_required, current_user
+from flask_login import current_user
 
-from application import app, db
+from application import app, db, login_required
 from application.pokemon.models import Pokemon
 from application.pokemon.forms import PokeForm, DefaultPokemonForm
 from application.auth.models import User
 
 
+def get_user_pokemon(user_id):
+    return Pokemon.query.join(
+        Pokemon.accounts).filter_by(id=current_user.get_id()).all()
+
+
+def find_specific_pokemon(poke_id):
+    return Pokemon.query.get(int(poke_id))
+
+
 @app.route("/pokemon", methods=["GET"])
-@login_required
+@login_required()
 def pokemon_index():
     return render_template(
-        "pokemon/list.html",
-        pokemon=Pokemon.query.join(
-            Pokemon.accounts).filter_by(id=current_user.get_id()).all())
+        "pokemon/list.html", pokemon=get_user_pokemon(current_user.get_id()))
 
 
 @app.route("/pokemon/new")
-@login_required
+@login_required(role="ADMIN")
 def poke_form():
     return render_template("pokemon/new.html", form=PokeForm())
 
 
-@app.route("/pokemon/<poke_id>/", methods=["GET"])
-@login_required
+@app.route("/pokemon/<int:poke_id>/", methods=["GET"])
+@login_required()
 def get_pokemon(poke_id):
-    p = Pokemon.query.get(int(poke_id))
+    p = find_specific_pokemon(poke_id)
     return render_template("pokemon/specific.html", pokemon=p)
 
 
 @app.route("/pokemon", methods=["POST"])
-@login_required
+@login_required()
 def create_pokemon():
     form = PokeForm(request.form)
     name = form.name.data
@@ -43,8 +50,23 @@ def create_pokemon():
     return redirect(url_for("pokemon_index"))
 
 
-@app.route("/pokemon/<poke_id>/edit/", methods=["GET", "POST"])
-@login_required
+@app.route("/pokemon/remove/<int:poke_id>", methods=["POST", "GET"])
+@login_required()
+def remove_pokemon(poke_id):
+    pokemon = find_specific_pokemon(poke_id)
+    print("pokemon to remove: " + str(poke_id))
+    print("list: " + str(pokemon))
+    pokemon.accounts = [
+        item for item in pokemon.accounts
+        if item.id != current_user.get_id()
+    ]
+    db.session.add(pokemon)
+    db.session.commit()
+    return redirect(url_for("pokemon_index"))
+
+
+@app.route("/pokemon/<int:poke_id>/edit/", methods=["GET", "POST"])
+@login_required()
 def edit_pokemon(poke_id):
     p = Pokemon.query.get(int(poke_id))
     if (request.method == "GET"):
@@ -59,7 +81,7 @@ def edit_pokemon(poke_id):
 
 
 @app.route("/pokemon/add_pokemon", methods=["GET", "POST"])
-@login_required
+@login_required()
 def add_pokemon():
     if (request.method == "GET"):
         return render_template(

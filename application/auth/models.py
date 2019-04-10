@@ -8,7 +8,6 @@ class User(Base):
     name = db.Column(db.String(144), nullable=False)
     username = db.Column(db.String(144), nullable=False, unique=True)
     password = db.Column(db.String(144), nullable=False)
-
     def __init__(self, name, username, password):
         self.name = name
         self.username = username
@@ -25,3 +24,7 @@ class User(Base):
 
     def is_authenticated(self):
         return True
+
+    def roles(self):
+        return ("USER", )
+
