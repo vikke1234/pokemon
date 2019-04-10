@@ -17,7 +17,7 @@ def auth_login():
     user = User.query.filter_by(username=form.username.data).first()
 
     if not user or not flask_bcrypt.check_password_hash(
-            user.password, form.password.data):
+            user.password, form.password.data.encode("utf-8")):
         return render_template(
             "auth/loginform.html",
             form=form,
@@ -56,7 +56,9 @@ def auth_register():
             form=RegisterForm(),
             url="auth_register",
             error="password cannot be empty")
-    pw = flask_bcrypt.generate_password_hash(form.password.data)
+
+    pw = flask_bcrypt.generate_password_hash(
+        form.password.data.encode("utf-8"))
     user = User(form.name.data, form.username.data, pw)
     db.session.add(user)
     db.session.commit()
