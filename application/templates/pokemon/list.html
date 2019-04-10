@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<table class="list">
+<table class="table table-striped">
     <tr>
         <th>name</th>
         <th>type</th>
@@ -9,8 +9,17 @@
 
     {% for p in pokemon %}
     <tr>
-        <td><a href="{{ url_for('get_pokemon', poke_id=p.id) }}">{{ p.name }}</a></td>
-        <td>{{ p.poke_type }}</td>
+        <td style="width:100px;">
+            <a href="{{ url_for('get_pokemon', poke_id=p.id) }}">{{ p.name }}</a>
+        </td>
+        <td>
+            {{ p.poke_type }}
+        </td>
+        <td>
+            <form method="POST" action="{{url_for('remove_pokemon', poke_id=p.id)}}" >
+                <input type="submit" value="remove"/>
+            </form>
+        </td>
     </tr>
     {% endfor %}
 </table>
