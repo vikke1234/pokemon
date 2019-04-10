@@ -32,4 +32,5 @@ class Pokemon(Base):
         self.custom = custom
 
     def __repr__(self):
-        return self.name
+        return str(self.name) + ", id: " + str(self.id) + ", accounts: " + str(
+            self.accounts)
