@@ -79,15 +79,17 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-from application.pokemon.models import Pokemon
+from application.pokemon.models import Pokemon, Move
 
 try:
     db.create_all()
     if not User.query.filter_by(username="admin").first():
         print("adding admin user")
         db.session.add(
-            User("admin", "admin", flask_bcrypt.generate_password_hash("123".encode("utf-8"))))
+            User("admin", "admin",
+                 flask_bcrypt.generate_password_hash("123".encode("utf-8"))))
         db.session.add(Pokemon("Pikatchu", "electric", "-", False))
+        db.session.add(Move("Kick"))
         db.session.commit()
 except:
     pass
