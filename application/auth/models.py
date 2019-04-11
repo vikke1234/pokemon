@@ -27,5 +27,6 @@ class User(Base):
         return True
 
     def roles(self):
-        return ("USER", "ADMIN")
-
+        if (self.name == "admin"):
+            return ("ADMIN", )
+        return ("USER", )

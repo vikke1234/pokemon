@@ -15,7 +15,6 @@ def auth_login():
     form = LoginForm(request.form)
 
     user = User.query.filter_by(username=form.username.data).first()
-
     if not user or not flask_bcrypt.check_password_hash(
             user.password, form.password.data.encode("utf-8")):
         return render_template(
