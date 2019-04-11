@@ -6,7 +6,6 @@ from flask_bcrypt import Bcrypt
 from os import urandom
 import os
 app = Flask(__name__)
-flask_bcrypt = Bcrypt(app)
 
 if os.environ.get("HEROKU"):
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
@@ -19,6 +18,8 @@ else:
 db = SQLAlchemy(app)
 
 app.config["SECRET_KEY"] = urandom(32)
+
+flask_bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
