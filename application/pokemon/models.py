@@ -51,6 +51,17 @@ class Pokemon(Base):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_specific_pokemon(poke_id):
+        if type(poke_id) is not int:
+            raise TypeError("poke_id must be an integer")
+        return Pokemon.query.get(poke_id)
+
+    @staticmethod
+    def get_user_pokemon(user_id):
+        if type(user_id) is not int:
+            raise TypeError("user_id must be an integer")
+        return Pokemon.query.join(Pokemon.accounts).filter_by(id=user_id).all()
 
 class Move(Base):
     __tablename__ = "move"

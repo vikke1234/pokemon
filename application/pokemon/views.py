@@ -3,24 +3,19 @@ from flask_login import current_user
 
 from application import app, db, login_required
 from application.pokemon.models import Pokemon
-from application.pokemon.forms import PokeForm, DefaultPokemonForm
+from application.pokemon.forms import PokeForm, DefaultPokemonForm, Search
 from application.auth.models import User
 
 
-def get_user_pokemon(user_id):
-    return Pokemon.query.join(
-        Pokemon.accounts).filter_by(id=current_user.get_id()).all()
-
-
-def find_specific_pokemon(poke_id):
-    return Pokemon.query.get(int(poke_id))
-
-
-@app.route("/pokemon", methods=["GET"])
+@app.route("/pokemon", methods=["GET", "POST"])
 @login_required()
 def pokemon_index():
+    pokemon = Pokemon.get_user_pokemon(current_user.get_id())
+    form = Search(request.form)
+    if request.method == "POST":
+        pokemon = [p for p in pokemon if form.search.data in p.name.lower()]
     return render_template(
-        "pokemon/list.html", pokemon=get_user_pokemon(current_user.get_id()))
+        "pokemon/list.html", pokemon=pokemon, search=Search())
 
 
 @app.route("/pokemon/new")
@@ -53,12 +48,9 @@ def create_pokemon():
 @app.route("/pokemon/remove/<int:poke_id>", methods=["POST", "GET"])
 @login_required()
 def remove_pokemon(poke_id):
-    pokemon = find_specific_pokemon(poke_id)
-    print("pokemon to remove: " + str(poke_id))
-    print("list: " + str(pokemon))
+    pokemon = Pokemon.get_specific_pokemon(poke_id)
     pokemon.accounts = [
-        item for item in pokemon.accounts
-        if item.id != current_user.get_id()
+        item for item in pokemon.accounts if item.id != current_user.get_id()
     ]
     db.session.add(pokemon)
     db.session.commit()

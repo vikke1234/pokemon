@@ -1,6 +1,16 @@
 {% extends "layout.html" %}
 
 {% block body %}
+
+<div class="input-group mb-3" style="max-width:500px;">
+    <form method="POST" action="{{url_for('pokemon_index')}}">
+        <div class="input-group-append">
+            {{search.search(class_="form-control", placeholder="Search")}}
+            {{search.submit(class_="btn btn-outline-secondary")}}
+        </div>
+    </form>
+</div>
+
 <table class="table table-striped">
     <tr>
         <th>name</th>
