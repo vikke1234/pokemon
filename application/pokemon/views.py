@@ -27,11 +27,11 @@ def poke_form():
 @app.route("/pokemon/<int:poke_id>/", methods=["GET"])
 @login_required()
 def get_pokemon(poke_id):
-    p = find_specific_pokemon(poke_id)
+    p = Pokemon.get_specific_pokemon(poke_id)
     return render_template("pokemon/specific.html", pokemon=p)
 
 
-@app.route("/pokemon", methods=["POST"])
+@app.route("/pokemon/new", methods=["POST"])
 @login_required()
 def create_pokemon():
     form = PokeForm(request.form)
@@ -40,6 +40,8 @@ def create_pokemon():
     description = form.description.data
     custom = form.custom.data
     p = Pokemon(name, _type, description, custom)
+
+    print("\033[93m" + "Pokemon" + "\033[0m")
     db.session.add(p)
     db.session.commit()
     return redirect(url_for("pokemon_index"))
@@ -82,7 +84,6 @@ def add_pokemon():
     pokemon = form.name.data
     user_id = current_user.get_id()
     user = User.query.filter_by(id=user_id).first()
-    print("\033[93m" + str(user) + "\033[0m")
     pokemon.accounts.append(user)
     db.session.add(pokemon)
     db.session.commit()
