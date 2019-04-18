@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField
+from wtforms import StringField, TextAreaField, SubmitField
 from wtforms import BooleanField, SelectField, validators
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from application.pokemon.models import Pokemon
@@ -31,6 +31,14 @@ class PokeForm(FlaskForm):
     description = TextAreaField("Description", [validators.Length(max=144)])
     poke_type = SelectField("type", choices=__types)
     custom = BooleanField("Custom")
+
+    class Meta:
+        csrf = False
+
+
+class Search(FlaskForm):
+    search = StringField()
+    submit = SubmitField()
 
     class Meta:
         csrf = False
