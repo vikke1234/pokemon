@@ -2,12 +2,13 @@
 
 {% block body %}
 <div>
-    <form method="POST" action="{{ url_for('create_pokemon') }}" >
+    <form method="POST" action="{{ url_for('create_pokemon') }}">
         <table>
             {% for field in form %}
             <tr> </tr>
             <tr>
-                <td> {{  field.label  }} </td> <td> {{ field }} </td>
+                <td> {{ field.label  }} </td>
+                <td> {{ field }} </td>
             </tr>
             {% endfor %}
         </table>
