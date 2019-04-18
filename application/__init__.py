@@ -35,23 +35,18 @@ def login_required(role="ANY"):
     def wrapper(fn):
         @wraps(fn)
         def decorated_view(*args, **kwargs):
-            print("in wrapper")
             if not current_user:
                 return login_manager.unauthorized()
             if not current_user.is_authenticated:
                 return login_manager.unauthorized()
 
             unauthorized = False
-            print("role: " + role)
             if role != "ANY":
                 unauthorized = True
                 roles = current_user.roles()
-                print("roles: " + str(roles))
-                print(role in roles)
                 if role in roles:
                     unauthorized = False
 
-            print(unauthorized)
             if unauthorized:
                 print("unauthorized")
                 return login_manager.unauthorized()
@@ -84,7 +79,6 @@ from application.pokemon.models import Pokemon, Move
 try:
     db.create_all()
     if not User.query.filter_by(username="admin").first():
-        print("adding admin user")
         db.session.add(
             User("admin", "admin",
                  flask_bcrypt.generate_password_hash("123".encode("utf-8"))))
