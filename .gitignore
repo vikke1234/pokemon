@@ -192,3 +192,5 @@ pip-selfcheck.json
 *.pdb
 *.sqlite3
 # End of https://www.gitignore.io/api/venv,emacs,python
+
+*.temp
