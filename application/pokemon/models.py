@@ -69,7 +69,7 @@ class Move(Base):
     description = db.Column(db.String(255))
     pokemon = db.relationship(
         "Pokemon", backref="move", secondary=pokemon_moves)
-    account = db.relationship("User", backref="move", secondary=None)
+    account = db.relationship("User", backref="move", secondary=user_moves)
 
     def __init__(self, name, description=None):
         self.name = name
