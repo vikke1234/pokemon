@@ -14,17 +14,20 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
+                    {% if current_user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('pokemon_index') }} ">List pokemon</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('add_pokemon') }} ">Add a pokemon</a>
                     </li>
-                    {% if current_user.is_authenticated and "ADMIN" in current_user.roles() %}
+
+                    {% if "ADMIN" in current_user.roles() %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('poke_form') }} ">Create pokemon</a>
                     </li>
                     {% endif %}
+                    {%endif%}
                 </ul>
                 <div class="form-inline mt-2 mt-md-0">
                     {% if current_user.is_authenticated %}
