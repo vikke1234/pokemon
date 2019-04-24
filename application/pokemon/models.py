@@ -32,7 +32,7 @@ user_moves = db.Table(
 class Pokemon(Base):
     __tablename__ = "pokemon"
     name = db.Column(db.String(20), nullable=False)
-    poke_type = db.Column(db.Integer, nullable=False)
+    poke_type = db.Column(db.String, nullable=False)
     description = db.Column(db.String(300))
     custom = db.Column(db.Boolean, nullable=False)
     accounts = db.relationship(
