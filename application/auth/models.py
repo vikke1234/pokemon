@@ -28,5 +28,5 @@ class User(Base):
 
     def roles(self):
         if (self.name == "admin"):
-            return ("ADMIN", )
+            return ("ADMIN", "USER")
         return ("USER", )
