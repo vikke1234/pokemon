@@ -63,7 +63,11 @@ class Pokemon(Base):
             raise TypeError("user_id must be an integer")
         return Pokemon.query.join(Pokemon.accounts).filter_by(id=user_id).all()
 
+
 class Move(Base):
+    """This is for having the possiblity to i.e. customize your pokemon further,
+    but this is yet to be implented into the actual program."""
+
     __tablename__ = "move"
     name = db.Column(db.String(30), nullable=False)
     description = db.Column(db.String(255))
