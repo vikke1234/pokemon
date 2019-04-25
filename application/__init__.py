@@ -81,7 +81,7 @@ try:
     if not User.query.filter_by(username="admin").first():
         db.session.add(
             User("admin", "admin",
-                 flask_bcrypt.generate_password_hash("123".encode("utf-8"))))
+                 flask_bcrypt.generate_password_hash(os.environ.get("ADMIN_PASS").encode("utf-8"))))
         db.session.add(Pokemon("Pikatchu", "electric", "-", False))
         db.session.add(Move("Kick"))
         db.session.commit()
