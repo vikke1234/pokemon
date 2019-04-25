@@ -6,7 +6,7 @@
     <form method="POST" action="{{url_for('pokemon_index')}}">
         <div class="input-group-append">
             {{search.search(class_="form-control", placeholder="Search")}}
-            {{search.submit(class_="btn btn-outline-secondary")}}
+            {{search.submit(class_="btn btn-outline-secondary", value="Search")}}
         </div>
     </form>
 </div>
