@@ -13,6 +13,7 @@ def pokemon_index():
     pokemon = Pokemon.get_user_pokemon(current_user.get_id())
     form = Search(request.form)
     if request.method == "POST":
+        # filter when searching for pokemon
         pokemon = [p for p in pokemon if form.search.data in p.name.lower()]
     return render_template(
         "pokemon/list.html", pokemon=pokemon, search=Search())
@@ -29,6 +30,15 @@ def poke_form():
 def get_pokemon(poke_id):
     p = Pokemon.get_specific_pokemon(poke_id)
     return render_template("pokemon/specific.html", pokemon=p)
+
+
+@app.route("/pokemon/add_move/<int:poke_id>", methods=["POST"])
+@login_required()
+def add_move(poke_id):
+    # TODO
+    p = Pokemon.get_specific_pokemon(poke_id)
+
+    return redirect(url_for("get_pokemon", poke_id=poke_id))
 
 
 @app.route("/pokemon/new", methods=["POST"])
