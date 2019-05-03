@@ -2,11 +2,15 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms import BooleanField, SelectField, validators
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from application.pokemon.models import Pokemon
+from application.pokemon.models import Pokemon, Move
 
 
 def get_pokemon():
     return Pokemon.query.filter_by(custom=False)
+
+
+def get_moves():
+    return Move.query.all()
 
 
 class PokeForm(FlaskForm):
@@ -27,7 +31,10 @@ class PokeForm(FlaskForm):
                ("ghost", "Ghost"),
                ("dark", "Dark"),
                ("steel", "Steel"))  # yapf: disable
-    name = StringField("Pokemon name", [validators.Length(min=2, max=144)])
+    name = StringField("Pokemon name", [
+        validators.Length(
+            min=2, max=144, message="name must be between 2-144")
+    ])
     description = TextAreaField("Description", [validators.Length(max=144)])
     poke_type = SelectField("type", choices=__types)
     custom = BooleanField("Custom")
@@ -50,6 +57,14 @@ class DefaultPokemonForm(FlaskForm):
         "Pokemon",
         validators=[validators.Required()],
         query_factory=get_pokemon)
+
+    class Meta:
+        csrf = False
+
+
+class MoveForm(FlaskForm):
+    move_name = QuerySelectField(
+        "Move", validators=[validators.Required()], query_factory=get_moves)
 
     class Meta:
         csrf = False
