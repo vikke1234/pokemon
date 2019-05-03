@@ -1,5 +1,5 @@
 {% macro make_form(form, url, text) %}
-<form method="POST" action="{{url_for(url)}}">
+<form method="POST" action="{{url_for(url, **kwargs)}}">
     <table>
         {% for field in form %}
         <tr>
