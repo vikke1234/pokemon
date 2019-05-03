@@ -30,3 +30,6 @@ class User(Base):
         if (self.name == "admin"):
             return ("ADMIN", "USER")
         return ("USER", )
+
+    def __repr__(self):
+        return str(self.username)
