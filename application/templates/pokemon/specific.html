@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-
+{%import "iterable.html" as iterable%}
 {% block body %}
 
 <div>
@@ -13,6 +13,14 @@
         <div>
             <label><strong>description</strong></label>
             <p> {{ pokemon.description }} </p>
+        </div>
+        <div>
+            {{iterable.make_form(form, "add_move", "Teach", poke_id=pokemon.id)}}
+        </div>
+        <div>
+            {%for move in moves%}
+            <p>{{move}}</p>
+            {%endfor%}
         </div>
     </div>
 </div>
