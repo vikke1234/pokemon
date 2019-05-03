@@ -92,13 +92,13 @@ class Move(Base):
     def count_moves(pokemon_id, account_id):
         # Counts the amount of moves the specified pokemon
         # has on a given account
-        statement = """
+        statement = db.text("""
         SELECT COUNT(Move.id) FROM Move JOIN Pokemon_Moves ON Move.id = Pokemon_Moves.move_id
         JOIN Pokemon ON Pokemon.id = Pokemon_Moves.poke_id
         JOIN user_moves ON Move.id = user_moves.move_id
         JOIN Account ON Account.id = user_moves.user_id
         WHERE Pokemon.id = :poke_id AND Account.id = :account_id;
-        """
+        """)
         result = db.engine.execute(
             statement, poke_id=pokemon_id, account_id=account_id)
         return result.first()[0]
