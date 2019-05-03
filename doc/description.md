@@ -1,2 +1,2 @@
 # pokebase description
-pokebase will be a program that will be able to list a bunch of pokemon aswell as being able to battle with them with some sort of probability thing to calculate who wins/loses
+Pokebase is a simple database of pokemon, you can add pokemon to your own list and then teach them moves, you can check the `doc/future_ideas.md` for what this would maybe become if there was more time.
