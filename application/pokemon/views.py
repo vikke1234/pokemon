@@ -53,11 +53,12 @@ def add_move(poke_id):
 @login_required(role="ADMIN")
 def create_pokemon():
     form = PokeForm(request.form)
-    if not form.validate():
+    if not form.validate() and request.method == "POST":
+        print("ERROR COULD NOT CREATE POKEMON")
         return render_template(
             "pokemon/new.html",
             form=PokeForm(),
-            error="name must be between [2,30], description: [0,144]")
+            error="name must be between [2,20], description: [0,144]")
 
     if request.method == "POST":
         name = form.name.data
