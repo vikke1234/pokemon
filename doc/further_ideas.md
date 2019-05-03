@@ -2,3 +2,4 @@
 2. In the original database schema there were arenas, currently it's removed from everything. The idea was to have the ability to fight other people with e.g. like some textual interface or something. But that won't happend atleast any time soon.
 3. Ability to remove moves from pokemon
 4. A cleaner UI for viewing pokemon
+5. Ability to add new moves, currently only has 2 moves.
