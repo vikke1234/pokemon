@@ -63,6 +63,12 @@ class Pokemon(Base):
             raise TypeError("user_id must be an integer")
         return Pokemon.query.join(Pokemon.accounts).filter_by(id=user_id).all()
 
+    @staticmethod
+    def get_pokemon_moves(pokemon_id, user_id):
+        if type(user_id) is not int or type(pokemon_id) is not int:
+            raise TypeError("pokemon id and/or user id must be of type int")
+        return Pokemon.query.join(Pokemon.move).all()
+
 
 class Move(Base):
     """This is for having the possiblity to i.e. customize your pokemon further,
@@ -78,3 +84,21 @@ class Move(Base):
     def __init__(self, name, description=None):
         self.name = name
         self.description = description
+
+    def __repr__(self):
+        return self.name
+
+    @staticmethod
+    def count_moves(pokemon_id, account_id):
+        # Counts the amount of moves the specified pokemon
+        # has on a given account
+        statement = """
+        SELECT COUNT(Move.id) FROM Move JOIN Pokemon_Moves ON Move.id = Pokemon_Moves.move_id
+        JOIN Pokemon ON Pokemon.id = Pokemon_Moves.poke_id
+        JOIN user_moves ON Move.id = user_moves.move_id
+        JOIN Account ON Account.id = user_moves.user_id
+        WHERE Pokemon.id = :poke_id AND Account.id = :account_id;
+        """
+        result = db.engine.execute(
+            statement, poke_id=pokemon_id, account_id=account_id)
+        return result.first()[0]
