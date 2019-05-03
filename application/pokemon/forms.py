@@ -33,7 +33,7 @@ class PokeForm(FlaskForm):
                ("steel", "Steel"))  # yapf: disable
     name = StringField("Pokemon name", [
         validators.Length(
-            min=2, max=144, message="name must be between 2-144")
+            min=2, max=20, message="name must be between 2-144")
     ])
     description = TextAreaField("Description", [validators.Length(max=144)])
     poke_type = SelectField("type", choices=__types)
