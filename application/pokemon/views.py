@@ -26,7 +26,6 @@ def get_pokemon(poke_id):
     p = Pokemon.get_specific_pokemon(poke_id)
     moves = Move.query.join(Move.pokemon).filter_by(id=poke_id).join(
         Pokemon.accounts).filter_by(id=current_user.get_id()).all()
-
     return render_template(
         "pokemon/specific.html", pokemon=p, moves=moves, form=MoveForm())
 
@@ -40,6 +39,7 @@ def add_move(poke_id):
     user = User.query.get(current_user.get_id())
     if p not in move.pokemon:
         move.pokemon.append(p)
+
     if user not in move.account \
        and Move.count_moves(poke_id, current_user.get_id()):
         move.account.append(user)
