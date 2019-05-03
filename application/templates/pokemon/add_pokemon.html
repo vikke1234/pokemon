@@ -2,5 +2,6 @@
 {% import "iterable.html" as iterable %}
 
 {%block body%}
+{{error}}
 {{ iterable.make_form(form, "add_pokemon", "pick") }}
 {%endblock%}

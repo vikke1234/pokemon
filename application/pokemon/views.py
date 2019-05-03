@@ -53,14 +53,18 @@ def add_move(poke_id):
 @login_required(role="ADMIN")
 def create_pokemon():
     form = PokeForm(request.form)
-    if request.method == "POST" and form.validate():
+    if not form.validate():
+        return render_template(
+            "pokemon/new.html",
+            form=PokeForm(),
+            error="name must be between [2,30], description: [0,144]")
+
+    if request.method == "POST":
         name = form.name.data
         _type = form.poke_type.data
         description = form.description.data
         custom = form.custom.data
         p = Pokemon(name, _type, description, custom)
-
-        print("\033[93m" + "Pokemon" + "\033[0m")
         db.session.add(p)
         db.session.commit()
         return redirect(url_for("pokemon_index"))
